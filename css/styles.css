@@ -826,17 +826,15 @@ a:hover {
     background: rgba(255, 255, 255, 0.9);
 }
 
-.form__input:focus + .form__label,
-.form__textarea:focus + .form__label,
-.form__input:not(:placeholder-shown) + .form__label,
-.form__textarea:not(:placeholder-shown) + .form__label {
+.form__group:focus-within .form__label,
+.form__group:has(.form__input:not(:placeholder-shown)) .form__label,
+.form__group:has(.form__textarea:not(:placeholder-shown)) .form__label {
     transform: translateY(-0.75rem) scale(0.8);
     color: var(--color-primary-600);
     font-weight: 700;
 }
 
-.form__input:focus ~ .form__group::after,
-.form__textarea:focus ~ .form__group::after {
+.form__group:focus-within::after {
     transform: scaleX(1);
 }
 

@@ -44,25 +44,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function handleFormSubmission(form) {
     const formData = new FormData(form);
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
+    const name = formData.get('name') || 'Anonymous';
+    const email = formData.get('email') || '';
+    const phone = formData.get('phone') || '';
+    const message = formData.get('message') || 'No message provided.';
     
-    // Show loading state
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
+    const subject = encodeURIComponent(`Inquiry about San Pedro Restaurant Business - ${name}`);
+    const body = encodeURIComponent(
+        `Name: ${name}\n` +
+        `Email: ${email}\n` +
+        `Phone: ${phone}\n\n` +
+        `Message:\n${message}\n\n` +
+        `This inquiry came from the website form.`
+    );
     
-    // Simulate form submission (replace with actual endpoint)
+    // Recipients: primary and second email
+    const to = 'J70mustang@gmail.com,rboudaher@gmail.com';
+    
+    const mailtoUrl = `mailto:${to}?subject=${subject}&body=${body}`;
+    
+    console.log('Opening mailto URL:', mailtoUrl);
+    
+    // Open user's email client
+    window.location.href = mailtoUrl;
+    
+    // Optional: Show a brief message before redirect
+    showFormMessage('Opening your email client to send the inquiry...', 'success');
+    
+    // Reset form after a short delay (email client opens immediately)
     setTimeout(() => {
-        // Show success message
-        showFormMessage('Thank you for your inquiry! We\'ll get back to you within 24 hours.', 'success');
-        
-        // Reset form
         form.reset();
-        
-        // Reset button
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }, 2000);
+    }, 1000);
 }
 
 function showFormMessage(message, type) {
